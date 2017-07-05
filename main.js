@@ -21,7 +21,7 @@ var getWallets = function(host, eventId, key, orderField, walletLimit, walletOff
                     console.log("Cada 60 segundos volvera a hacer la llamada");
                     setInterval( function() { 
                         getWallets(host, eventId, key, orderField, walletLimit, walletOffset, getLastModified().toISOString(), orderType); 
-                    }, 10000);
+                    }, 60000);
                     isIntervalLooping = true;
                 }
             }
