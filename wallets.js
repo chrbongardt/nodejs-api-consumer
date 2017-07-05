@@ -1,7 +1,7 @@
 
 var requests = require('./requests.js');
 
-var walletsMap = {};
+var map = {};
 var isIntervalLooping = false;
 var walletOffset = 0;
 
@@ -41,15 +41,15 @@ var getWalletPath = function(eventId, orderField, orderType, limit, offset, star
 }
 
 var getLastWalletModified = function() {
-    return new Date(Math.max.apply(null, Object.keys(walletsMap).map(function(key) {
-        return new Date(walletsMap[key].modified_at);
+    return new Date(Math.max.apply(null, Object.keys(map).map(function(key) {
+        return new Date(map[key].modified_at);
     })));
 }
 
 var walletParser = function(walletList) {
     for(var i in walletList) {
         var key = walletList[i].wallet_id;
-        walletsMap[key] = walletList[i];
+        map[key] = walletList[i];
         var start = null;
         var end = null;
         if(walletList[i].validity_range != null){
