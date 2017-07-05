@@ -1,8 +1,5 @@
 { 
     "host" : "api-sandbox.easygo.band",
     "key" : "00::fdafdafsdafdsfdfsafdfsafds",
-    "eventId" : "0",
-    "orderField" : "modified_at",
-    "walletLimit" : 100,
-    "orderType" : "ASC"
+    "eventId" : "0"
 }
