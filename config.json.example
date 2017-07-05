@@ -3,7 +3,6 @@
     "key" : "00::fdafdafsdafdsfdfsafdfsafds",
     "eventId" : "0",
     "orderField" : "modified_at",
-    "walletOffset" : 0,
     "walletLimit" : 100,
     "orderType" : "ASC"
 }

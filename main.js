@@ -4,7 +4,7 @@ var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
 var walletsMap = {};
 var isIntervalLooping = false;
-
+var walletOffset = 0;
 var getWallets = function(host, eventId, key, orderField, walletLimit, walletOffset, lastModified, orderType){    
     wallets.getWallets(host, eventId, key, orderField, walletLimit, walletOffset, lastModified, orderType)
         .then(function(response) {
@@ -16,28 +16,23 @@ var getWallets = function(host, eventId, key, orderField, walletLimit, walletOff
             } else {
                 console.log("Finalizada la sincronización de monederos");
                 walletOffset = 0;
-                lastModified = getLastModified(); 
                 if (!isIntervalLooping){
                     console.log("Empieza sincronización por fecha, utilizando la última fecha de modificación del listado obtengo los wallets modificados recientemente");
                     console.log("Cada 60 segundos volvera a hacer la llamada");
-                    setInterval( function() { getWallets(host, eventId, key, orderField, walletLimit, walletOffset, lastModified, orderType); }, 60000);
+                    setInterval( function() { 
+                        getWallets(host, eventId, key, orderField, walletLimit, walletOffset, getLastModified().toISOString(), orderType); 
+                    }, 10000);
                     isIntervalLooping = true;
                 }
             }
         });
 }
-getWallets(config.host, config.eventId, config.key, config.orderField, config.walletLimit, config.walletOffset, '', config.orderType);
+getWallets(config.host, config.eventId, config.key, config.orderField, config.walletLimit, walletOffset, '', config.orderType);
 
 var getLastModified = function() {
-    var last = {
-        modified_at : '2000-01-01T00:00:00.000Z'
-    };
-    for(var i in walletsMap) {
-        if (new Date(walletsMap[i].modified_at).getTime() > new Date(last.modified_at).getTime()) {
-            last = walletsMap[i];
-        }
-    }
-    return last.modified_at;
+    return new Date(Math.max.apply(null, Object.keys(walletsMap).map(function(key) {
+        return new Date(walletsMap[key].modified_at);
+    })));
 }
 
 var walletParser = function(walletList) {
