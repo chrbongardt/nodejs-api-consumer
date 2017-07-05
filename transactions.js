@@ -21,7 +21,7 @@ var getTransactions = function(host, key, eventId, limit, offset, lastModified, 
                     console.log("Cada 60 segundos volvera a hacer la llamada");
                     setInterval( function() { 
                         getTransactions(host, key, eventId, limit, offset, getLastTransactionModified().toISOString(), orderType); 
-                    }, 10000);
+                    }, 60000);
                     isIntervalLooping = true;
                 }
             }
